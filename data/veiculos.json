@@ -1,0 +1,26 @@
+[
+    {
+        "tipo": "carro",
+        "modelo": "Volkswagen Fusca",
+        "placa": "BAB1G369",
+        "disponivel": false
+    },
+    {
+        "tipo": "moto",
+        "modelo": "Yamaha FZ15",
+        "placa": "EGG4A11",
+        "disponivel": true
+    },
+    {
+        "tipo": "moto",
+        "modelo": "CAN-AM SPYDER RT",
+        "placa": "BAL1S69",
+        "disponivel": false
+    },
+    {
+        "tipo": "carro",
+        "modelo": "Chevrolet Camaro",
+        "placa": "MRM0N31",
+        "disponivel": false
+    }
+]
