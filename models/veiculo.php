@@ -1,33 +1,38 @@
 <?php
-// define espaço para organização
-namespace Veiculo;
+namespace Models;
 
-// classe abstrata para todos os tipoos de veículos
-
-abstract class veiculo {
+/**
+ * Classe abstrata base para todos os tipos de veículos
+ */
+abstract class Veiculo {
     protected string $modelo;
     protected string $placa;
     protected bool $disponivel;
 
-    public function __construct(string $modelo, string $placa, bool $disponivel)
-    {
+    public function __construct(string $modelo, string $placa) {
         $this->modelo = $modelo;
         $this->placa = $placa;
         $this->disponivel = true;
     }
 
-    abstract public function calcularAluguel(int $dias) : float;
-    
-    public function isDisponivel() : bool {
+    /**
+     * Calcula o valor do aluguel baseado na quantidade de dias
+     */
+    abstract public function calcularAluguel(int $dias): float;
+
+    public function isDisponivel(): bool {
         return $this->disponivel;
     }
-    public function getModelo() : string{
+
+    public function getModelo(): string {
         return $this->modelo;
     }
-    public function getPlaca() : string{
+
+    public function getPlaca(): string {
         return $this->placa;
     }
-    public function setDisponivel(bool $disponivel) : void{
+
+    public function setDisponivel(bool $disponivel): void {
         $this->disponivel = $disponivel;
     }
 }
