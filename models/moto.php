@@ -2,7 +2,7 @@
 namespace Models;
 use Interfaces\locavel;
 use Veiculo\veiculo;
-// classe the representa um carro
+// classe the representa uma moto
 class Moto extends veiculo implements Locavel {
 
     public function calcularAluguel(int $dias):float{
