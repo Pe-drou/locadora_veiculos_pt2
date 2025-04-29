@@ -1,5 +1,8 @@
 <?php
+// define espaço para organização
 namespace Models;
+
+// inclui classe abstrata e interface
 use Interfaces\locavel;
 use Veiculo\veiculo;
 // classe the representa um carro

@@ -1,5 +1,7 @@
 <?php
+// define espaço para organização
 namespace Veiculo;
+
 // classe abstrata para todos os tipoos de veículos
 
 abstract class veiculo {

@@ -1,4 +1,5 @@
 <?php
+// define espaço para organização
 namespace Interfaces;
 
 // interface que define os metodos necessários para um veículo ser locável
