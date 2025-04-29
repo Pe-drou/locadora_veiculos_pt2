@@ -1,31 +1,28 @@
 <?php
-// define espaço para organização
 namespace Models;
+use Interfaces\Locavel;
 
-// inclui classe abstrata e interface
-use Interfaces\locavel;
-use Veiculo\veiculo;
-// classe the representa um carro
-class Carro extends veiculo implements Locavel {
-
-    public function calcularAluguel(int $dias):float{
+/**
+ * Classe que representa um Carro no sistema
+ */
+class Carro extends Veiculo implements Locavel {
+    public function calcularAluguel(int $dias): float {
         return $dias * DIARIA_CARRO;
     }
 
     public function alugar(): string {
-        if ($this->disponivel){
+        if ($this->disponivel) {
             $this->disponivel = false;
-            return "Carro '{$this->modelo}' alugado com sucesso";
+            return "Carro '{$this->modelo}' alugado com sucesso!";
         }
-        return "Carro '{$this->modelo}' está indisponível";
+        return "Carro '{$this->modelo}' não está disponível.";
     }
 
-    public function devolver(): string
-    {
-        if (!$this->disponivel){
+    public function devolver(): string {
+        if (!$this->disponivel) {
             $this->disponivel = true;
-            return "Carro '{$this->modelo}' devolvido com sucesso";
+            return "Carro '{$this->modelo}' devolvido com sucesso!";
         }
-        return "Carro '{$this->modelo}' já disponível";
+        return "Carro '{$this->modelo}' já está na locadora.";
     }
 }
