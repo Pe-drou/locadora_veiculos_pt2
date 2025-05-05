@@ -73,14 +73,70 @@ class Locadora {
         $this->veiculos[] = $veiculo;
         $this->salvarVeiculos();
     }
-
+    
     // remover veículo
+    public function deletarVeiculo(string $placa, string $modelo){
+        foreach($this->veiculos as $key => $veiculo){
+            // verifica se o modelo e a placa correspondem
+            if($veiculo->getModelo() === $modelo && $veiculo->getPlaca() === $placa){
+                // remove o veículo do array
+                unset($this->veiculos[$key]);
+
+                // reorganizar os indices
+                $this->veiculos = array_values($this->veiculos);
+
+                // salva os veículos restantes no arquivo JSON
+                $this->salvarVeiculos();
+                return "Veículo '{$modelo}' removido com sucesso!";
+            }
+        }
+        return "Veículo não encontrado";
+    }
 
     // alugar veiculo por X dias
+    public function alugarVeiculo(string $modelo, int $dias = 1): string{
+
+        // percorre a lista de veículos
+        foreach($this->veiculos as $veiculo){
+            if($veiculo->getModelo() === $modelo && $veiculo->isDisponivel()){
+
+                // calcular valor de aluguel
+                $valorAluguel = $veiculo->calcularAluguel($dias);
+
+                // marcar como alugado
+                $mensagem = $veiculo->alugar();
+
+                $this->salvarVeiculos();
+                return $mensagem . "valor do aluguel: R$" . number_format($valorAluguel, 2, ',', '.');
+            }            
+        }
+        return "veículo não disponível";
+    }
 
     // devolver veiculo
+    public function devolverDeiculo(string $modelo): string{
+        foreach($this->veiculos as $veiculo){
+            if($veiculo -> getModelo() === $modelo && !$veiculo->isDisponivel()){
+                $mensagem = $veiculo->devolver();
+                $this->salvarVeiculos();
+                return $mensagem;
+            }
+        }
+        return"Veículo já disponível ou não encontrado";
+    }
 
     // retornar a lista de veiculos
 
+    public function listarVeiculos(): array{
+        return $this->veiculos;
+    }
+
     // calcular previsão do valor
+    public function calcularPrevisaoAluguel(string $tipo, int $dias): float{
+        if ($tipo === 'Carro'){
+            return (new Carro('',''))->calcularAluguel($dias);
+        } else {
+            return (new Moto('',''))->calcularAluguel($dias);
+        }
+    }
 }
