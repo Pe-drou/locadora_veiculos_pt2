@@ -1,41 +1,42 @@
-<?php
-session_start();
+<?php 
 
-require_once __DIR__ . '/../vendor/autoload.php';
+    // incuir o auto load do composer para carregar automaticamente as classes utilizadas
+    require_once __DIR__ . '/../vendor/autoload.php';
 
-// inserir a classe de autenticação
-use Services\Auth;
+    // incluir o arquivo com as variaveis
+    require_once __DIR__ . '/../config/config.php';
 
-// inicializa a variável para mensagens de erro
-$mensagem = '';
+    session_start();
 
-// instanciar a classe de autenticação
-$auth = new Auth();
+    // inserir a classe de autenticação
+    use Services\Auth;
 
-// verifica se já foi autenticado
-if(Auth::verificarLogin()){
+    // Inicializa a variável para mensagens de erro
+    $mensagem = '';
 
-    // redireciona para a a páagina inicial
-    header('Locadion:index.php');
-    exit;
-}
+    // instanciar a classe de autenticação
+    $auth = new Auth();
 
-// verifica se o formulãrio foi enviado
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    // pega os dados enviados
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    // verifica o login
-    if($auth->login($username, $password)){
-        // se estiver correto, redireciona para a página inicial
-        header('Location:index.php');
-    } else {
-        // se não estiver correto, dá uma mensagem de erro
-        $mensagem = "Falha no login, verifique se o nome de usuário e senha estão corretos";
+    // verifica se já foi autenticado
+    if (Auth::verificarLogin()) {
+        echo "Usuário já autenticado. Redirecionando...";
+        header('Location: index.php');
+        exit;
     }
-}
+
+    // verifica se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+    
+        if ($auth->login($username, $password)) {
+            header('Location: index.php');
+            exit;
+        } else {
+            $mensagem = 'Usuário ou senha incorretos!';
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -43,12 +44,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Loca dos veículos</title>
-    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- bootstrap icones -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Login</title>
     <style>
         .login-container{
             max-width: 400px;
@@ -58,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             position: absolute;
             right: 15px;
             top: 50%;
-            transform: translateY(-30%);
+            transform: translateY(-50%);
             cursor: pointer;
         }
     </style>
@@ -66,43 +64,42 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <body class="bg-light">
     <div class="login-container">
         <div class="card">
-            <!-- título do card login -->
             <div class="card-header">
-                <h4 class="mb-1">Login</h4>
+                <h4 class="mb-0">Login</h4>
             </div>
-            <!-- corpo do card login -->
+
             <div class="card-body">
 
                 <?php if($mensagem): ?>
-                <div class="alert alert-danger"><?=htmlspecialchars($mensagem)?></div>
+                    <div class="alert alert-danger"><?= htmlspecialchars($mensagem) ?></div>
                 <?php endif; ?>
-                <form action="post" class="needs-validation" novalidate>
-                    <input type="hidden">
 
+                <form action="" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
-                        <label for="user" class="form-label">usuário</label>
-                        <input type="text" name="username" class="form-control" required autocomplete="off" placeholder="Digite o usuário">
+                        <label for="" class="form-label">Usuario:</label>
+                        <input type="text" placeholder="Digite seu usuario" name="username" class="form-control" require autocomplete="off">
                     </div>
-
                     <div class="mb-3 position-relative">
                         <label for="password" class="form-label">Senha:</label>
-                        <input type="password" name="password" class="form-control" required id="password">
-                        <span class="password-toggle mt-3" onclick="togglePassword()">
-                            <i class="bi bi-eye-fill"></i>
-                        </span>
+                        <input type="password" placeholder="Digite sua senha" name="password" class="form-control" id="password" require>
+                        <span class="password-toggle mt-3" onclick="togglePassword()"><i class="bi bi-eye-slash-fill" id="olho"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-warning w-100">Entrar</button>
+                    <button type="submit" class="btn btn-success w-100">Entrar</button>
                 </form>
             </div>
         </div>
     </div>
+
     <script>
-        function togglePassword(){
-            let passwordInput = document.getElementById('password')
-            passwordInput.type = (passwordInput.type === password) ? 'text' : 'password';
-
+        function togglePassword() {
+            let passwordInput = document.getElementById('password');
+            let olho = document.getElementById('olho');
+            passwordInput.type = (passwordInput.type === 'password') ? 'text' : 'password';
+            
+            // Alterna entre as classes do ícone do olho
+            olho.classList.toggle('bi-eye-slash-fill');
+            olho.classList.toggle('bi-eye');
         }
-
     </script>
 </body>
 </html>
