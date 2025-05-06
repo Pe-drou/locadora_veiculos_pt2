@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../services/auth.php';
 
-use Auth\Auth;
+use Services\Auth;
 
 $usuario = Auth::getUsuario();
 ?>
@@ -225,4 +225,5 @@ $usuario = Auth::getUsuario();
         </div>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

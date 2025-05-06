@@ -114,7 +114,7 @@ class Locadora {
     }
 
     // devolver veiculo
-    public function devolverDeiculo(string $modelo): string{
+    public function devolverVeiculo(string $modelo): string{
         foreach($this->veiculos as $veiculo){
             if($veiculo -> getModelo() === $modelo && !$veiculo->isDisponivel()){
                 $mensagem = $veiculo->devolver();
